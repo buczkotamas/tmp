@@ -1,0 +1,395 @@
+openapi: 3.0.1
+info:
+  title: Push DPS Applicaiton
+  description: Push DPS Application Api!!
+  contact:
+    email: apiteam@telekom-digital.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: //localhost:8997/
+tags:
+  - name: PushEvent
+    description: the events API
+paths:
+  /dps/push/v1/events:
+    post:
+      tags:
+        - PushEvent
+      summary: Add user events information
+      operationId: addUserEvents
+      requestBody:
+        description: event
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+        required: true
+      responses:
+        200:
+          description: OK
+        201:
+          description: Event information added sucessfully
+        202:
+          description: Notification sent Successfully
+        206:
+          description: Partial content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        207:
+          description: Warning or info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        400:
+          description: Bad format request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        401:
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: Not authorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        408:
+          description: Request timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        409:
+          description: Business rules exceptions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Business input parameter validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        504:
+          description: Backend not available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+      x-codegen-request-body-name: event
+  /dps/push/v2/events:
+    post:
+      tags:
+        - PushEvent
+      summary: Add user events V2 information
+      operationId: addUserEventsV2
+      requestBody:
+        description: event
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventV2'
+        required: true
+      responses:
+        200:
+          description: OK
+        201:
+          description: Event information added sucessfully
+        202:
+          description: Notification sent Successfully
+        206:
+          description: Partial content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        207:
+          description: Warning or info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        400:
+          description: Bad format request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        401:
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: Not authorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        408:
+          description: Request timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        409:
+          description: Business rules exceptions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Business input parameter validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        504:
+          description: Backend not available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+      x-codegen-request-body-name: event
+components:
+  schemas:
+    Error:
+      title: Error
+      type: object
+      properties:
+        cause:
+          $ref: '#/components/schemas/Throwable'
+        localizedMessage:
+          type: string
+        message:
+          type: string
+        stackTrace:
+          type: array
+          items:
+            $ref: '#/components/schemas/StackTraceElement'
+        suppressed:
+          type: array
+          items:
+            $ref: '#/components/schemas/Throwable'
+    Event:
+      title: Event
+      type: object
+      properties:
+        action:
+          type: string
+          example: billGenerated
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventAttribute'
+        customerId:
+          type: string
+          example: 218eb98d-16cb-418d-b713-ffa60b2b6d71
+        eventId:
+          type: string
+          example: 9e9f614a-a97e-4615-a0c2-7efd4b14c351
+        messageId:
+          type: string
+          example: 5bdbe8ee-2353-46d3-81b5-c1f36fa3738b
+      description: Default Event entity
+    EventAttribute:
+      title: EventAttribute
+      type: object
+      properties:
+        name:
+          type: string
+          description: loan_amount
+        value:
+          type: string
+          description: "650"
+      description: Event Attribute
+    EventV2:
+      title: EventV2
+      type: object
+      properties:
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventAttribute'
+        channel:
+          type: string
+          example: oneapp
+        deviceId:
+          type: string
+          example: 5bdbe8ee-2353-46d3-81b5-c1f36fa3738b
+        environment:
+          type: string
+          example: staging
+        eventAction:
+          type: string
+          example: billGenerated
+        eventId:
+          type: string
+          example: 9e9f614a-a97e-4615-a0c2-7efd4b14c351
+        eventType:
+          type: string
+          description: eventType
+          enum:
+            - user_attribute
+            - service_attribute
+            - event
+        natCoCode:
+          type: string
+          description: natCoCode
+          enum:
+            - gdc
+            - hu
+            - cz
+        multiProfileSupported:
+          type: boolean
+        natcoKey:
+          type: string
+          example: 1fzQIv6q927sd8Hp94hjnaqb1EnfBjkj
+        profileId:
+          type: string
+          example: 218eb98d-16cb-418d-b713-ffa60b2b6d71
+        serviceId:
+          type: string
+          example: abdde8ee-2353-46d3-81b5-c1f36fa3738b
+        msisdn:
+          type: string
+          example: ehde8ee-2353-46d3-81b5-c1f36fa238b
+        targetPlatform:
+          type: array
+          description: targetPlatform
+          example: MOENGAGE,CAMPAIGN,ALL
+          items:
+            type: string
+      description: Default V2 Event entity
+    Throwable:
+      title: Throwable
+      type: object
+      properties:
+        cause:
+          $ref: '#/components/schemas/Throwable'
+        localizedMessage:
+          type: string
+        message:
+          type: string
+        stackTrace:
+          type: array
+          items:
+            $ref: '#/components/schemas/StackTraceElement'
+        suppressed:
+          type: array
+          items:
+            $ref: '#/components/schemas/Throwable'
+    Permission:
+      title: Permission
+      type: object
+      properties:
+        claims:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        rsid:
+          type: string
+        rsname:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+    StackTraceElement:
+      title: StackTraceElement
+      type: object
+      properties:
+        className:
+          type: string
+        fileName:
+          type: string
+        lineNumber:
+          type: integer
+          format: int32
+        methodName:
+          type: string
+        nativeMethod:
+          type: boolean
+    User:
+      title: User
+      type: object
+      properties:
+        create_by:
+          type: string
+        deleted_by:
+          type: string
+        email:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        last_login:
+          type: integer
+          format: int64
+        password:
+          type: string
+        status:
+          type: string
+          description: User Status
+          enum:
+            - active
+            - inactive
+        username:
+          type: string
